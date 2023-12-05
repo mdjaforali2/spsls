@@ -1,0 +1,288 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Your website description goes here">
+    <meta name="keywords" content="your, keywords, go, here">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/laundry-machine.png' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+    <!-- Add your custom stylesheets or link to additional CSS files -->
+    {% comment %} <link rel="stylesheet" href="{% static 'css/custom.css' %}"> {% endcomment %}
+
+    {% block extra_head %}{% endblock %}
+    <style>
+        /* Common Styles for both themes */
+        body {
+            transition: background-color 0.5s, color 0.5s;
+        }
+    
+        /* Styles for the light theme */
+        .light-theme {
+            background-color: #e0d6ae !important; /* Light background color */
+            color: #000000 !important; /* Black font color */
+        }
+    
+        .light-theme .navbar {
+            background-color: #f8f9fa !important; /* Light background color for the navbar */
+        }
+    
+        .light-theme .navbar-toggler {
+            background-color: #e0d6ae !important; /* Adjust background color for the navbar toggler in light theme */
+            border-color: #e0d6ae !important; /* Adjust border color for light theme */
+        }
+    
+        .light-theme .navbar-nav a,
+        .light-theme .navbar-nav span,
+        .light-theme .footer-nav a,
+        .light-theme .social-media a,
+        .light-theme .navbar-brand,
+        .light-theme .custom-control-label,
+        .light-theme .navbar-toggler-icon {
+            color: #000000 !important; /* Black font color for links in nav, footer, social media, navbar-brand, custom-control-label, and navbar-toggler-icon */
+        }
+    
+        .light-theme #footer {
+            color: #000000 !important; /* Black font color for footer text */
+            background-color: #f8f9fa !important; /* Light background color for the footer */
+        }
+    
+        /* Other styles for the light theme */
+    
+        /* Styles for the dark theme */
+        .dark-theme {
+            background-color: #2c3e50; /* Dark background color */
+            color: #e0d6ae !important; /* Light font color */
+        }
+        
+        .dark-theme .navbar {
+            background-color: #34495e !important; /* Dark background color for the navbar */
+        }
+        
+        .dark-theme #footer {
+            background-color: #34495e !important; /* Dark background color for the footer */
+        }
+    
+        .dark-theme .navbar-toggler {
+            background-color: #2c3e50 !important; /* Adjust background color for the navbar toggler in dark theme */
+            border-color: rgba(255, 255, 255, 0.1) !important; /* Adjust border color for dark theme */
+        }
+    
+        .dark-theme .navbar-nav a,
+        .dark-theme .navbar-nav span,
+        .dark-theme .footer-nav a,
+        .dark-theme .social-media a,
+        .dark-theme .social-media p,
+        .dark-theme .navbar-brand,
+        .dark-theme .custom-control-label,
+        .dark-theme .navbar-toggler-icon {
+            color: #e0d6ae !important; /* Light font color for links in nav, footer, social media, navbar-brand, custom-control-label, and navbar-toggler-icon */
+        }
+
+        .dark-theme .card {
+            background-color: #34495e; /* Update the background color as per your preference */
+        }
+
+        .dark-theme table {
+            color: #e0d6ae !important; /* Light font color for table text in dark theme */
+        }
+    
+
+    </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100 {% if user.is_authenticated %}authenticated{% endif %} dark-theme">
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'main_page' %}">Shantipurshal Laundry Service</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'main_page' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'product_list' %}">Our Services</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <!-- Admin/Staff Navigation Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'employee_list' %}">Employee Management System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_product' %}">Add Service</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_file' %}">Add File</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+
+                    <!-- Customer/Employee Navigation Links -->
+                    {% elif user.role == 'customer' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="">My Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'view_cart' %}">Cart</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Checkout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                    {% elif user.role == 'employee' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'employee_detail' user.employee.employee_id %}">My Employee Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            </li>
+
+                    {% endif %}
+                {% else %}
+                    <!-- Guest Navigation Links -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="themeSwitch">
+                <label class="custom-control-label text-white" for="themeSwitch" id="themeSwitchLabel">Toggle Theme</label>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle"></i> {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4 flex-grow-1">
+        <h1>{% block content_title %}{% endblock %}</h1>
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags != 'success' %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                        {% if message.tags == 'error' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle"></i>
+                        {% endif %}
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer" class="text-white text-center py-3">
+        <div class="container">
+            <!-- Navigation Links -->
+            <nav class="footer-nav">
+                <a href="#" class="text-white">Contact Us</a> |
+                <a href="#" class="text-white">About Us</a> |
+                <a href="#" class="text-white">Terms And Conditions</a>
+            </nav>
+
+            <!-- Social Media Links -->
+            <div class="social-media">
+                <a href="https://www.facebook.com/" target="_blank" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/" target="_blank" class="text-white"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/" target="_blank" class="text-white"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/" target="_blank" class="text-white"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.youtube.com/" target="_blank" class="text-white"><i class="fab fa-youtube"></i></a>
+                <p> &copy; 2023 Shantipurshal Laundry Service. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Theme Switcher Script -->
+    <script>
+        const themeSwitch = document.getElementById('themeSwitch');
+
+        // Load the theme choice from localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            themeSwitch.checked = savedTheme === 'dark';
+        }
+
+        themeSwitch.addEventListener('change', () => {
+            applyTheme();
+            // Save the theme choice to localStorage
+            localStorage.setItem('theme', themeSwitch.checked ? 'dark' : 'light');
+        });
+
+        function applyTheme() {
+            const isDarkTheme = themeSwitch.checked;
+            const body = document.body;
+
+            // Remove existing theme classes
+            body.classList.remove('light-theme', 'dark-theme');
+
+            // Add the appropriate theme class
+            body.classList.add(isDarkTheme ? 'dark-theme' : 'light-theme');
+        }
+
+        // Apply theme on page load
+        applyTheme();
+    </script>
+
+    <!-- Conditional Loading of Theme Styles -->
+    {% if themeSwitch.checked %}
+        <link rel="stylesheet" href="{% static 'css/dark-theme.css' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'css/light-theme.css' %}">
+    {% endif %}
+</body>
+
+</html>

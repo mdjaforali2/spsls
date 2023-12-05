@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    <div class="container mt-1">
+        <h2 class="display-5 text-center with-underline">Add a New Service</h2>
+    </div>
+    <hr>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <!-- Add Single Product Form -->
+        <form method="post" enctype="multipart/form-data" class="mb-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_name">Service Name:</label>
+                <input type="text" class="form-control" name="name" id="id_name" required>
+            </div>
+            <div class="form-group">
+                <label for="id_description">Service Description:</label>
+                <textarea class="form-control" name="description" id="id_description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="id_price">Price:</label>
+                <input type="number" class="form-control" name="price" id="id_price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="id_image">Product Image:</label>
+                <input type="file" class="form-control-file" name="image" id="id_image" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+    </div>
+{% endblock %}

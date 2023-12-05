@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <!-- Logo and Introduction Section -->
+    <div class="container text-center mt-4">
+        {% comment %} <img src="{% static 'images/laundry_logo.jpg' %}" alt="Shantipurshal Laundry Service Logo" class="img-fluid" width="500" height="400"> {% endcomment %}
+        <h1>Welcome to Shantipurshal Laundry Service</h1>
+        <p>Your trusted partner for premium laundry services. Fast, efficient, and reliable!</p>
+        <img src="{% static 'images/brand_image.jpg' %}" alt="Laundry Facility" class="img-fluid" width="600" height="300">
+    </div>
+
+    <!-- Updated Navigation Links -->
+    <div class="text-center mt-3">
+        <a href="#" class="btn btn-link">Wash & Fold</a> |
+        <a href="#" class="btn btn-link">Dry Cleaning</a> |
+        <a href="{% url 'product_list' %}" class="btn btn-link">Special Services</a> |
+        <a href="#" class="btn btn-link">Pickup & Delivery</a>
+    </div>
+    
+    
+
+    <!-- Improved Search Bar -->
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search for laundry services or products" aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button">Search</button>
+        </div>
+    </div>
+
+    <!-- Special Offers Section -->
+    <div class="container mt-4">
+        <h2>Special Offers</h2>
+        <p>Discover our exclusive offers on laundry services. Limited time only!</p>
+        <!-- Add your offer content here -->
+    </div>
+
+    <!-- Discounts Section -->
+    <div class="container mt-4">
+        <h2>Discounts</h2>
+        <p>Save more with our ongoing discounts. Check out our budget-friendly options!</p>
+        <!-- Add your discount content here -->
+    </div>
+
+    <!-- Popular Section -->
+    <div class="container mt-4">
+        <h2>Popular Services</h2>
+        <p>Explore our most popular laundry services loved by our customers.</p>
+        <!-- Add your popular content here -->
+    </div>
+{% endblock %}

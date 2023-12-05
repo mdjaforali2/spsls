@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    <div class="container mt-1">
+        <h2 class="display-5 text-center with-underline">Add a File Instead</h2>
+    </div>
+    <hr>
+{% endblock %}
+
+{% block content %}
+    <!-- Import CSV Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="file">CSV File:</label>
+            <input type="file" name="file" accept=".csv" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Import Products</button>
+    </form>
+{% endblock %}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    <div class="container mt-4">
+        <h2 class="display-5 text-center">Our Services</h2>
+        <hr class="my-4">
+    </div>
+{% endblock %}
+
+{% block content %}
+    <style>
+        /* Custom CSS for setting a fixed height and width for product images without cropping */
+        .product-image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px; /* Set the desired height */
+        }
+
+        .product-image {
+            width: 300px; /* Set the desired width */
+            height: 100%; /* Maintain aspect ratio */
+            object-fit: contain; /* Maintain aspect ratio and fit within the container */
+        }
+    </style>
+
+    <div class="container mt-4">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        {% if product.image and product.image.url %}
+                            <div class="product-image-container">
+                                <img src="{{ product.image.url }}" class="card-img-top product-image mx-auto" alt="{{ product.name }}">
+                            </div>
+                        {% else %}
+                            <!-- Placeholder image or default content when the image doesn't exist -->
+                            <div class="text-center">
+                                <p>No Image Available</p>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text">Price: ৳{{ product.price }} per item</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                {% if user.is_authenticated and user.is_staff %}
+                                    <a href="{% url 'manage_product' product_id=product.id %}" class="btn btn-primary btn">Manage Service</a>
+                                {% else %}
+                                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity_in_stock }}" class="form-control">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-success">Add to Cart</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

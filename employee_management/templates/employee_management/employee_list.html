@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    <div class="container mt-4">
+        <h2 class="display-5 text-center">Employee List</h2>
+        <hr class="my-4">
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        {% if employees %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Employment Type</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Position</th>
+                            <th scope="col">Date of Hiring</th>
+                            <th scope="col">Hourly Rate</th>
+                            <th scope="col">Shift</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                            <tr>
+                                <td>{{ employee.employee_id }}</td>
+                                <td>{{ employee.employee_type }}</td>
+                                <td>{{ employee.department }}</td>
+                                <td>{{ employee.position }}</td>
+                                <td>{{ employee.date_of_hiring }}</td>
+                                <td>{{ employee.hourly_rate }}</td>
+                                <td>{{ employee.shift }}</td>
+                                <td>
+                                    {% if employee.employee_id %}
+                                        <div class="btn-group" role="group" aria-label="Employee Actions">
+                                            <a href="{% url 'employee_detail' employee.employee_id %}" class="btn btn-primary btn-sm">View Details</a>
+                                            <a href="{% url 'employee_update' employee.employee_id %}" class="btn btn-warning btn-sm">Update</a>
+                                            <a href="{% url 'update_availability' employee_id=employee.employee_id %}" class="btn btn-info btn-sm">Update Availability</a>
+                                        </div>
+                                    {% else %}
+                                        <p class="text-danger">Employee ID is empty.</p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="lead">No employees available.</p>
+        {% endif %}
+    </div>
+{% endblock %}

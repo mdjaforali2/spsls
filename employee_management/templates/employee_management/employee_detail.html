@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content_title %}
+    <div class="container mt-4">
+        <h2 class="display-5 text-center">Employee Details</h2>
+        <hr class="my-4">
+    </div>
+{% endblock %}
+
+{% block content %}
+    <!-- Employee Details page -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Display Employee Information -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">Employee Information</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">Username:</dt>
+                        <dd class="col-sm-8">{{ user.username }}</dd>
+
+                        <dt class="col-sm-4">Employee ID:</dt>
+                        <dd class="col-sm-8">{{ employee.employee_id }}</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8">{{ user.email }}</dd>
+
+                        <dt class="col-sm-4">Phone Number:</dt>
+                        <dd class="col-sm-8">{{ user.phone_number }}</dd>
+
+                        <dt class="col-sm-4">Department:</dt>
+                        <dd class="col-sm-8">{{ employee.department }}</dd>
+
+                        <dt class="col-sm-4">Position:</dt>
+                        <dd class="col-sm-8">{{ employee.position }}</dd>
+
+                        <dt class="col-sm-4">Date of Hiring:</dt>
+                        <dd class="col-sm-8">{{ employee.date_of_hiring }}</dd>
+
+                        <dt class="col-sm-4">Employee Type:</dt>
+                        <dd class="col-sm-8">{{ employee.get_employee_type_display }}</dd>
+
+                        <dt class="col-sm-4">Hourly Rate:</dt>
+                        <dd class="col-sm-8">{{ employee.hourly_rate }}</dd>
+
+                        <dt class="col-sm-4">Shift:</dt>
+                        <dd class="col-sm-8">{{ employee.get_shift_display }}</dd>
+
+                        <!-- Add more fields as needed -->
+
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Display Employee Availability Information -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">Availability Information</h5>
+                    <dl class="row">
+                        <!-- Monday -->
+                        <dt class="col-sm-4">Monday:</dt>
+                        <dd class="col-sm-8">
+                            {% if employee.availability_monday_start and employee.availability_monday_finish %}
+                                {{ employee.availability_monday_start }} - {{ employee.availability_monday_finish }}
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </dd>
+
+                        <!-- Tuesday -->
+                        <dt class="col-sm-4">Tuesday:</dt>
+                        <dd class="col-sm-8">
+                            {% if employee.availability_tuesday_start and employee.availability_tuesday_finish %}
+                                {{ employee.availability_tuesday_start }} - {{ employee.availability_tuesday_finish }}
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </dd>
+
+                        <!-- Wednesday -->
+                        <dt class="col-sm-4">Wednesday:</dt>
+                        <dd class="col-sm-8">
+                            {% if employee.availability_wednesday_start and employee.availability_wednesday_finish %}
+                                {{ employee.availability_wednesday_start }} - {{ employee.availability_wednesday_finish }}
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </dd>
+
+                        <!-- Thursday -->
+                        <dt class="col-sm-4">Thursday:</dt>
+                        <dd class="col-sm-8">
+                            {% if employee.availability_thursday_start and employee.availability_thursday_finish %}
+                                {{ employee.availability_thursday_start }} - {{ employee.availability_thursday_finish }}
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </dd>
+
+                        <!-- Friday -->
+                        <dt class="col-sm-4">Friday:</dt>
+                        <dd class="col-sm-8">
+                            {% if employee.availability_friday_start and employee.availability_friday_finish %}
+                                {{ employee.availability_friday_start }} - {{ employee.availability_friday_finish }}
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </dd>
+
+                        <!-- Saturday -->
+                        <dt class="col-sm-4">Saturday:</dt>
+                        <dd class="col-sm-8">
+                            {% if employee.availability_saturday_start and employee.availability_saturday_finish %}
+                                {{ employee.availability_saturday_start }} - {{ employee.availability_saturday_finish }}
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </dd>
+
+                        <!-- Sunday -->
+                        <dt class="col-sm-4">Sunday:</dt>
+                        <dd class="col-sm-8">
+                            {% if employee.availability_sunday_start and employee.availability_sunday_finish %}
+                                {{ employee.availability_sunday_start }} - {{ employee.availability_sunday_finish }}
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Link to Employee Update (conditionally displayed) -->
+            {% if user.is_authenticated %}
+                {% if user.role == 'employee' %}
+                    <div class="text-center mt-4">
+                        <a href="{% url 'update_availability' user.employee.employee_id %}" class="btn btn-primary">Update Availability</a>
+                    </div>
+                {% endif %}
+
+            {% elif user.is_staff %}
+                    <div class="text-center mt-4">
+                        <a href="{% url 'employee_update' user.employee.employee_id %}" class="btn btn-primary">Update Employee Information</a>
+                        <a href="{% url 'update_availability' user.employee.employee_id %}" class="btn btn-primary">Update Availability</a>
+                    </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Print Favicon -->
+    <div class="text-right mt-4">
+        <a href="javascript:void(0)" onclick="printAvailability()">
+            <img src="{% static 'images/print.png' %}" alt="Print" width="30" height="30">
+        </a>
+    </div>
+
+    <script>
+        function printAvailability() {
+            window.print();
+        }
+    </script>
+{% endblock %}

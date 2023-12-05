@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    <div class="container mt-1">
+        <h2 class="display-5 text-center">Employee Sign Up</h2>
+        <hr>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <!-- Sign Up page -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="{% url 'employee_create' %}" class="mt-4">
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" name="{{ user_form.username.name }}" class="form-control" required>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="{{ user_form.email.name }}" class="form-control" required>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password1">Password:</label>
+                    <input type="password" name="{{ user_form.password1.name }}" class="form-control" required>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="password2">Confirm Password:</label>
+                    <input type="password" name="{{ user_form.password2.name }}" class="form-control" required>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" name="{{ user_form.phone_number.name }}" class="form-control" required>
+                </div>
+
+                <!-- Division -->
+                <div class="form-group">
+                    <label for="division">Division:</label>
+                    <select name="{{ user_form.division.name }}" class="form-control" required>
+                        <option value="" disabled selected>Select Division</option>
+                        {% for code, name in user_form.division.field.choices %}
+                            <option value="{{ code }}" {% if code == user_form.division.value %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- City -->
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" name="{{ user_form.city.name }}" class="form-control" value="Cumilla" required>
+                </div>
+
+                <!-- Role -->
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select name="{{ user_form.role.name }}" class="form-control" required>
+                        <option value="" disabled selected>Select Role</option>
+                        {% for code, name in user_form.role.field.choices %}
+                            <option value="{{ code }}" {% if code == user_form.role.value %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                <button type="submit" class="btn btn-success">Sign Up as Employee</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

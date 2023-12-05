@@ -1,0 +1,45 @@
+<!-- Updated product_detail.html with enhanced styling -->
+{% extends 'base.html' %}
+
+{% block content_title %}
+    <div class="container mt-4">
+        <h2 class="display-4 text-center">{{ product.name }}</h2>
+        <hr>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded product-image" width="300" height="200">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="product-info">
+                    <h2 class="font-weight-bold">{{ product.name }}</h2>
+                    <p class="price">Price: <b>৳{{ product.price }}</b></p>
+                    {% comment %} <p class="stock">In Stock: <b>{{ product.quantity_in_stock }}</b></p> {% endcomment %}
+
+                    {% if user.is_authenticated and user.is_staff %}
+                        <a href="{% url 'manage_product' product_id=product.id %}" class="btn btn-primary btn-lg">Manage Service</a>
+                    {% else %}
+                        <form method="post" action="{% url 'add_to_cart' product.id %}" class="mt-3">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity_in_stock }}" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-success btn-lg">Add to Cart</button>
+                        </form>
+                    {% endif %}
+                    <hr>
+                    <p class="lead">{{ product.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

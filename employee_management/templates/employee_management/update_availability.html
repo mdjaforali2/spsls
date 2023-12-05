@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content_title %}
+    <div class="container mt-4">
+        <h2 class="display-5 text-center">Availability Form</h2>
+        <hr class="my-4">
+    </div>
+{% endblock %}
+
+{% block content %}
+    <!-- Update Availability page -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form method="post" action="{% url 'update_availability' employee_id=employee_id %}" class="mt-4">
+                    {% csrf_token %}
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Start Time</th>
+                                <th>Finish Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>{{ availability_form.availability_monday_start }}</td>
+                                <td>{{ availability_form.availability_monday_finish }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>{{ availability_form.availability_tuesday_start }}</td>
+                                <td>{{ availability_form.availability_tuesday_finish }}</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>{{ availability_form.availability_wednesday_start }}</td>
+                                <td>{{ availability_form.availability_wednesday_finish }}</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>{{ availability_form.availability_thursday_start }}</td>
+                                <td>{{ availability_form.availability_thursday_finish }}</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>{{ availability_form.availability_friday_start }}</td>
+                                <td>{{ availability_form.availability_friday_finish }}</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>{{ availability_form.availability_saturday_start }}</td>
+                                <td>{{ availability_form.availability_saturday_finish }}</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>{{ availability_form.availability_sunday_start }}</td>
+                                <td>{{ availability_form.availability_sunday_finish }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success">Update Availability</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Print Favicon -->
+    <div class="text-right mt-4">
+        <a href="javascript:void(0)" onclick="printAvailability()">
+            <img src="{% static 'images/print.png' %}" alt="Print" width="30" height="30">
+        </a>
+    </div>
+
+    <script>
+        function printAvailability() {
+            window.print();
+        }
+    </script>
+{% endblock %}
